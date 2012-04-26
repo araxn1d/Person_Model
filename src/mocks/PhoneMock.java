@@ -50,12 +50,12 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerializable {
     }
 
     @Override
-    public Object read(OutputStream stream) {
+    public Object read(InputStream stream) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean write(InputStream stream) {
+    public boolean write(OutputStream stream) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

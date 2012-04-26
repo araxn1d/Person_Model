@@ -12,6 +12,6 @@ import java.io.OutputStream;
  * @author Jeka
  */
 public interface IBinarySerializable {
-    public Object read(OutputStream stream);
-    public boolean write(InputStream stream);
+    public Object read(InputStream stream);
+    public boolean write(OutputStream stream);
 }

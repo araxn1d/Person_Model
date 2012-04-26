@@ -4,10 +4,9 @@
  */
 package mocks;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import javax.naming.BinaryRefAddr;
-import sun.security.krb5.internal.EncAPRepPart;
 
 /**
  *
@@ -53,17 +52,52 @@ public class AdressMock implements INullable, IAssignable, IBinarySerializable {
     }
 
     @Override
-    public Object read(OutputStream stream) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Object read(InputStream stream) {
+        try {
+            byte[] in = new byte[4 + 4 + 100];
+            stream.read(in);
+
+            byte[] id_b = new byte[4];
+            byte[] person_id_b = new byte[4];
+            byte[] adress_b = new byte[in.length - 8];
+
+            System.arraycopy(in, 0, id_b, 0, 4);
+            System.arraycopy(in, 4, person_id_b, 0, 4);
+            System.arraycopy(in, 8, adress_b, 0, adress_b.length);
+
+            this.setId(ByteConvertor.byteArrayToInt(id_b));
+            this.setPerson_id(ByteConvertor.byteArrayToInt(person_id_b));
+            this.setAdress(new String(adress_b,"UTF-8"));
+
+            return true;
+        } catch (IOException ex) {
+            ex.printStackTrace(System.err);
+        } finally {
+            return false;
+        }
     }
 
     @Override
-    public boolean write(InputStream stream) {
-        byte[] input=new byte[4+4+100];
-        byte[] id_b=ByteConvertor.intToByteArray(this.getId());
-        byte[] person_id_b=ByteConvertor.intToByteArray(this.getPerson_id());
-       // byte[] adress_b=this.getAdress().getBytes("UTF-8");
-        return false;
+    public boolean write(OutputStream stream) {
+        try {
+            byte[] out = new byte[4 + 4 + 100];
+
+            byte[] id_b = ByteConvertor.intToByteArray(this.getId());
+            byte[] person_id_b = ByteConvertor.intToByteArray(this.getPerson_id());
+            byte[] adress_b = this.getAdress().getBytes("UTF-8");
+
+            if (id_b.length == 4 && person_id_b.length == 4 && adress_b.length <= 30) {
+                System.arraycopy(id_b, 0, out, 0, 4);
+                System.arraycopy(person_id_b, 0, out, 4, 4);
+                System.arraycopy(adress_b, 0, out, 8, adress_b.length);
+                stream.write(out);
+            }
+            return true;
+        } catch (IOException ex) {
+            ex.printStackTrace(System.err);
+        } finally {
+            return false;
+        }
     }
 
     @Override
@@ -101,7 +135,6 @@ public class AdressMock implements INullable, IAssignable, IBinarySerializable {
         }
         return prop;
     }
-   
     private int id = 0;
     private int person_id = 0;
     private String adress = null;
