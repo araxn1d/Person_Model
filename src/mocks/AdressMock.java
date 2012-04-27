@@ -54,21 +54,28 @@ public class AdressMock implements INullable, IAssignable, IBinarySerializable {
     @Override
     public Object read(InputStream stream) {
         try {
-            byte[] in = new byte[4+4+100];
+            //Cr8 new byte array that will contain the mock's fields
+            //like id [4 bytes] and adress[max 100 bytes]
+            byte[] in = new byte[4 + 4 + 100];
+
+            //fill byte array from the stream
             stream.read(in);
 
             byte[] id_b = new byte[4];
             byte[] person_id_b = new byte[4];
             byte[] adress_b = new byte[in.length - 8];
 
+            //copy bytes from filled byte array(in) to mock's fields byte arrays
             System.arraycopy(in, 0, id_b, 0, 4);
             System.arraycopy(in, 4, person_id_b, 0, 4);
             System.arraycopy(in, 8, adress_b, 0, adress_b.length);
 
+            //set the mock's properties,trim the empty bytes of the String
             this.setId(ByteConvertor.byteArrayToInt(id_b));
             this.setPerson_id(ByteConvertor.byteArrayToInt(person_id_b));
-            this.setAdress(new String(adress_b,"UTF-8").trim());
+            this.setAdress(new String(adress_b, "UTF-8").trim());
 
+            //return true if method ran succesfull else return false
             return true;
         } catch (IOException ex) {
             ex.printStackTrace(System.err);
@@ -80,18 +87,22 @@ public class AdressMock implements INullable, IAssignable, IBinarySerializable {
     @Override
     public boolean write(OutputStream stream) {
         try {
+            //Cr8 new byte array that will contain the mock's fields
+            //like id [4 bytes] and adress [max 100 bytes]
             byte[] out = new byte[4 + 4 + 100];
 
+            //fill byte arrays that represents mock's fields
             byte[] id_b = ByteConvertor.intToByteArray(this.getId());
             byte[] person_id_b = ByteConvertor.intToByteArray(this.getPerson_id());
             byte[] adress_b = this.getAdress().getBytes("UTF-8");
 
-            if (id_b.length == 4 && person_id_b.length == 4 && adress_b.length <= 30) {
-                System.arraycopy(id_b, 0, out, 0, 4);
-                System.arraycopy(person_id_b, 0, out, 4, 4);
-                System.arraycopy(adress_b, 0, out, 8, adress_b.length);
-                stream.write(out);
-            }
+            //copy data to out array,that will be write to the stream
+            System.arraycopy(id_b, 0, out, 0, 4);
+            System.arraycopy(person_id_b, 0, out, 4, 4);
+            System.arraycopy(adress_b, 0, out, 8, adress_b.length);
+            stream.write(out);
+
+            //return true if method ran succesfull else return false
             return true;
         } catch (IOException ex) {
             ex.printStackTrace(System.err);

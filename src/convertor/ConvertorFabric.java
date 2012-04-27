@@ -18,15 +18,15 @@ public class ConvertorFabric {
     private ConvertorFabric() {
     }
 
-    public static IConvertor getInstance(INullable mock) {
+    public static IConvertor getInstance(Class clazz) {
         IConvertor ans = null;
-        if (mock.getClass().getName().equals(PersonMock.class.getSimpleName())) {
+        if (clazz.getName().equals(PersonMock.class.getName())) {
             ans = new PersonConvertor();
         }
-        if (mock.getClass().getName().equals(PhoneMock.class.getSimpleName())) {
+        if (clazz.getName().equals(PhoneMock.class.getName())) {
             ans = new PhoneConvertor();
         }
-        if (mock.getClass().getName().equals(AdressMock.class.getSimpleName())) {
+        if (clazz.getName().equals(AdressMock.class.getName())) {
             ans = new AdressConvertor();
         }
         return ans;

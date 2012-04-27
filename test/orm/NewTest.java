@@ -4,10 +4,15 @@
  */
 package orm;
 
+import convertor.ConverterException;
+import convertor.ConvertorFabric;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mocks.ByteConvertor;
+import mocks.PersonMock;
+import mocks.PhoneMock;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -92,5 +97,35 @@ public class NewTest {
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(NewTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    @Test
+    public void phoneConvertorTest() throws ConverterException{
+        PhoneMock mock=new PhoneMock();
+        mock.setId(10);
+        mock.setPerson_id(11);
+        mock.setPhone("9999");
+        HashMap<String,String> dictionary=ConvertorFabric.getInstance(PhoneMock.class).toDictionary(mock);
+        PhoneMock mock2=null;
+        mock2=(PhoneMock)ConvertorFabric.getInstance(PhoneMock.class).toObject(dictionary);
+        assertTrue(mock.getId()==mock2.getId());
+        assertTrue(mock.getPerson_id()==mock2.getPerson_id());
+        assertTrue(mock.getPhone().equals(mock2.getPhone()));
+    }
+    
+    @Test
+    public void personConvertorTest() throws ConverterException{
+        PersonMock mock=new PersonMock();
+        mock.setId(10);
+        mock.setFirstName("jopa");
+        mock.setLastName("pipa");
+        mock.setBirthDate("1992");
+        mock.setEMail("vasia@mai.ru");
+        HashMap<String,String> dictionary=ConvertorFabric.getInstance(PersonMock.class).toDictionary(mock);       
+        PersonMock mock2=(PersonMock)ConvertorFabric.getInstance(PersonMock.class).toObject(dictionary);
+        assertTrue(mock.getId()==mock2.getId());
+        assertTrue(mock.getFirstName().equals(mock2.getFirstName()));
+        assertTrue(mock.getLastName().equals(mock2.getLastName()));
+        assertTrue(mock.getBirthDate().equals(mock2.getBirthDate()));
+        assertTrue(mock.getEMail().equals(mock2.getEMail()));
     }
 }
