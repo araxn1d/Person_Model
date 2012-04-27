@@ -51,12 +51,51 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerializable {
 
     @Override
     public Object read(InputStream stream) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            byte[] in = new byte[4+4+100];
+            stream.read(in);
+
+            byte[] id_b = new byte[4];
+            byte[] person_id_b = new byte[4];
+            byte[] phone_b = new byte[in.length - 8];
+
+            System.arraycopy(in, 0, id_b, 0, 4);
+            System.arraycopy(in, 4, person_id_b, 0, 4);
+            System.arraycopy(in, 8, phone_b, 0, phone_b.length);
+
+            this.setId(ByteConvertor.byteArrayToInt(id_b));
+            this.setPerson_id(ByteConvertor.byteArrayToInt(person_id_b));
+            this.setPhone(new String(phone_b, "UTF-8").trim());
+
+            return true;
+        } catch (IOException ex) {
+            ex.printStackTrace(System.err);
+        } finally {
+            return false;
+        }
     }
 
     @Override
     public boolean write(OutputStream stream) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            byte[] out = new byte[4 + 4 +100];
+
+            byte[] id_b = ByteConvertor.intToByteArray(this.getId());
+            byte[] person_id_b = ByteConvertor.intToByteArray(this.getPerson_id());
+            byte[] phone_b = this.getPhone().getBytes("UTF-8");
+
+            if (id_b.length == 4 && person_id_b.length == 4 && phone_b.length <= 30) {
+                System.arraycopy(id_b, 0, out, 0, 4);
+                System.arraycopy(person_id_b, 0, out, 4, 4);
+                System.arraycopy(phone_b, 0, out, 8, phone_b.length);
+                stream.write(out);
+            }
+            return true;
+        } catch (IOException ex) {
+            ex.printStackTrace(System.err);
+        } finally {
+            return false;
+        }
     }
 
     @Override

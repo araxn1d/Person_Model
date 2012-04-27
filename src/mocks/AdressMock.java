@@ -54,7 +54,7 @@ public class AdressMock implements INullable, IAssignable, IBinarySerializable {
     @Override
     public Object read(InputStream stream) {
         try {
-            byte[] in = new byte[4 + 4 + 100];
+            byte[] in = new byte[4+4+100];
             stream.read(in);
 
             byte[] id_b = new byte[4];
@@ -67,7 +67,7 @@ public class AdressMock implements INullable, IAssignable, IBinarySerializable {
 
             this.setId(ByteConvertor.byteArrayToInt(id_b));
             this.setPerson_id(ByteConvertor.byteArrayToInt(person_id_b));
-            this.setAdress(new String(adress_b,"UTF-8"));
+            this.setAdress(new String(adress_b,"UTF-8").trim());
 
             return true;
         } catch (IOException ex) {
