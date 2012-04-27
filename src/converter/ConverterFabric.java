@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package convertor;
+package converter;
 
 import mocks.AdressMock;
 import mocks.INullable;
@@ -13,21 +13,21 @@ import mocks.PhoneMock;
  *
  * @author Jeka
  */
-public class ConvertorFabric {
+public class ConverterFabric {
 
-    private ConvertorFabric() {
+    private ConverterFabric() {
     }
 
-    public static IConvertor getInstance(Class clazz) {
-        IConvertor ans = null;
+    public static IConverter getInstance(Class clazz) {
+        IConverter ans = null;
         if (clazz.getName().equals(PersonMock.class.getName())) {
-            ans = new PersonConvertor();
+            ans = new PersonConverter();
         }
         if (clazz.getName().equals(PhoneMock.class.getName())) {
-            ans = new PhoneConvertor();
+            ans = new PhoneConverter();
         }
         if (clazz.getName().equals(AdressMock.class.getName())) {
-            ans = new AdressConvertor();
+            ans = new AdressConverter();
         }
         return ans;
     }

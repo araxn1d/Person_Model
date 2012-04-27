@@ -8,9 +8,9 @@ package mocks;
  *
  * @author Jeka
  */
-public class ByteConvertor {
+public class ByteConverter {
 
-    private ByteConvertor() {
+    private ByteConverter() {
     }
 
     public static final byte[] intToByteArray(int value) {

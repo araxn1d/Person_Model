@@ -71,8 +71,8 @@ public class AdressMock implements INullable, IAssignable, IBinarySerializable {
             System.arraycopy(in, 8, adress_b, 0, adress_b.length);
 
             //set the mock's properties,trim the empty bytes of the String
-            this.setId(ByteConvertor.byteArrayToInt(id_b));
-            this.setPerson_id(ByteConvertor.byteArrayToInt(person_id_b));
+            this.setId(ByteConverter.byteArrayToInt(id_b));
+            this.setPerson_id(ByteConverter.byteArrayToInt(person_id_b));
             this.setAdress(new String(adress_b, "UTF-8").trim());
 
             //return true if method ran succesfull else return false
@@ -92,8 +92,8 @@ public class AdressMock implements INullable, IAssignable, IBinarySerializable {
             byte[] out = new byte[4 + 4 + 100];
 
             //fill byte arrays that represents mock's fields
-            byte[] id_b = ByteConvertor.intToByteArray(this.getId());
-            byte[] person_id_b = ByteConvertor.intToByteArray(this.getPerson_id());
+            byte[] id_b = ByteConverter.intToByteArray(this.getId());
+            byte[] person_id_b = ByteConverter.intToByteArray(this.getPerson_id());
             byte[] adress_b = this.getAdress().getBytes("UTF-8");
 
             //copy data to out array,that will be write to the stream

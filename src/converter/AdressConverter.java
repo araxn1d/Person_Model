@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package convertor;
+package converter;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import mocks.INullable;
  *
  * @author Jeka
  */
-public class AdressConvertor implements IConvertor {
+public class AdressConverter implements IConverter {
 
     @Override
     public INullable toObject(HashMap<String, String> dictionary) throws ConverterException {

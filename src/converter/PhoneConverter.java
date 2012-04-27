@@ -2,29 +2,25 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package convertor;
-
+package converter;
 import java.util.HashMap;
 import mocks.INullable;
-import mocks.PersonMock;
 import mocks.PhoneMock;
 
 /**
  *
  * @author Jeka
  */
-public class PersonConvertor implements IConvertor {
+public class PhoneConverter implements IConverter {
 
     @Override
     public INullable toObject(HashMap<String, String> dictionary) throws ConverterException {
-        PersonMock mock = new PersonMock();
+        PhoneMock mock = new PhoneMock();
         if (dictionary != null) {
             try {
                 mock.setId(Integer.valueOf(dictionary.get("ID")));
-                mock.setFirstName(dictionary.get("FirstName"));
-                mock.setLastName(dictionary.get("LastName"));
-                mock.setBirthDate(dictionary.get("BirthDate"));
-                mock.setEMail(dictionary.get("eMail"));
+                mock.setPerson_id(Integer.valueOf(dictionary.get("Person_ID")));
+                mock.setPhone(dictionary.get("Phone"));
             } catch (Throwable e) {
                 throw new ConverterException(e.getMessage());
             }
@@ -37,12 +33,10 @@ public class PersonConvertor implements IConvertor {
         HashMap<String, String> map = new HashMap<String, String>();
         if (mock != null) {
             try {
-                PersonMock amock = (PersonMock) mock;
+                PhoneMock amock = (PhoneMock) mock;
                 map.put("ID", String.valueOf(amock.getId()));
-                map.put("FirstName", String.valueOf(amock.getFirstName()));
-                map.put("LastName", String.valueOf(amock.getLastName()));
-                map.put("BirthDate", String.valueOf(amock.getBirthDate()));
-                map.put("eMail", String.valueOf(amock.getEMail()));
+                map.put("Person_ID", String.valueOf(amock.getPerson_id()));
+                map.put("Phone", amock.getPhone());
             } catch (Throwable e) {
                 throw new ConverterException(e.getMessage());
             }

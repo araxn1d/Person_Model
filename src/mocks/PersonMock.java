@@ -76,7 +76,7 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable {
             System.arraycopy(in, 304, email_b, 0, 100);
 
             //set the mock's properties ,trim the empty bytes of the String
-            this.setId(ByteConvertor.byteArrayToInt(id_b));
+            this.setId(ByteConverter.byteArrayToInt(id_b));
             this.setFirstName(new String(fname_b, "UTF-8").trim());
             this.setLastName(new String(lname_b, "UTF-8").trim());
             this.setBirthDate(new String(birth_b, "UTF-8").trim());
@@ -99,7 +99,7 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable {
             byte[] out = new byte[4 + 100 + 100 + 100 + 100];
 
             //fill byte arrays that represents mock's fields
-            byte[] id_b = ByteConvertor.intToByteArray(this.getId());
+            byte[] id_b = ByteConverter.intToByteArray(this.getId());
             byte[] fname_b = this.getFirstName().getBytes("UTF-8");
             byte[] lname_b = this.getLastName().getBytes("UTF-8");
             byte[] birth_b = this.getBirthDate().getBytes("UTF-8");
