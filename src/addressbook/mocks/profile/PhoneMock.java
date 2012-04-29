@@ -2,11 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mocks;
+package addressbook.mocks.profile;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import addressbook.infrastructure.interfaces.IAssignable;
+import addressbook.infrastructure.interfaces.IBinarySerializable;
+import addressbook.infrastructure.interfaces.INullable;
 
 /**
  *

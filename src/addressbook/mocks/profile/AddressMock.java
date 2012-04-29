@@ -2,22 +2,25 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mocks;
+package addressbook.mocks.profile;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import addressbook.infrastructure.interfaces.IAssignable;
+import addressbook.infrastructure.interfaces.IBinarySerializable;
+import addressbook.infrastructure.interfaces.INullable;
 
 /**
  *
  * @author Jeka
  */
-public class AdressMock implements INullable, IAssignable, IBinarySerializable {
+public class AddressMock implements INullable, IAssignable, IBinarySerializable {
 
     public static final String TABLE_NAME = "Adresses";
     public static final int MAX_LENGTH = 30;
 
-    public static boolean validate(AdressMock mock) {
+    public static boolean validate(AddressMock mock) {
         boolean ans = true;
         if (mock.getId() <= 0 || mock.getPerson_id() <= 0
                 || mock.isNull() || null == mock) {
@@ -27,10 +30,10 @@ public class AdressMock implements INullable, IAssignable, IBinarySerializable {
         return ans;
     }
 
-    public AdressMock() {
+    public AddressMock() {
     }
 
-    public AdressMock(int id, int person_id, String adress) {
+    public AddressMock(int id, int person_id, String adress) {
         this.setId(id);
         this.setPerson_id(person_id);
         this.setAdress(adress);
@@ -39,8 +42,8 @@ public class AdressMock implements INullable, IAssignable, IBinarySerializable {
     @Override
     public boolean assignTo(Object obj) {
         boolean ans = false;
-        if ((obj != null) && (obj instanceof AdressMock)) {
-            AdressMock mock = (AdressMock) obj;
+        if ((obj != null) && (obj instanceof AddressMock)) {
+            AddressMock mock = (AddressMock) obj;
 
             mock.setId(this.getId());
             mock.setPerson_id(this.getPerson_id());
@@ -125,7 +128,7 @@ public class AdressMock implements INullable, IAssignable, IBinarySerializable {
     }
 
     public void setAdress(String adress) {
-        this.adress = cutString(adress, AdressMock.MAX_LENGTH);
+        this.adress = cutString(adress, AddressMock.MAX_LENGTH);
     }
 
     public String getAdress() {

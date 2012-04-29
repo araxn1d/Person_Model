@@ -2,29 +2,31 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package product;
+package addressbook.modules.profile.models;
 
-import mocks.AdressMock;
-import mocks.PersonMock;
-import mocks.PhoneMock;
+import addressbook.mocks.profile.AddressMock;
+import addressbook.mocks.profile.PersonMock;
+import addressbook.mocks.profile.PhoneMock;
 
 /**
  *
  * @author Jeka
  */
-public class ProductModel  {
+public class ProductModel {
 
-    public ProductModel(PersonMock person, AdressMock adress, PhoneMock phone) {
-        boolean a=person.assignTo(this.m_person);
-        boolean b=adress.assignTo(this.m_adress);
-        boolean c=phone.assignTo(this.m_phone);
-        
-        if(a && b && c){
-            
+    public ProductModel() {
+        this(new PersonMock(), new AddressMock(), new PhoneMock());
+    }
+
+    private ProductModel(PersonMock person, AddressMock adress, PhoneMock phone) {
+        boolean a = person.assignTo(this.m_person);
+        boolean b = adress.assignTo(this.m_adress);
+        boolean c = phone.assignTo(this.m_phone);
+
+        if (a && b && c) {
         }
     }
 
-    
     public static boolean validate() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -52,7 +54,7 @@ public class ProductModel  {
     public String getAdress() {
         return m_adress.getAdress();
     }
-    private AdressMock m_adress=null;
-    private PhoneMock m_phone=null;
-    private PersonMock m_person=null;
+    protected AddressMock m_adress = null;
+    protected PhoneMock m_phone = null;
+    protected PersonMock m_person = null;
 }

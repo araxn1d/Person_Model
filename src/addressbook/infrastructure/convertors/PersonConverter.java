@@ -2,18 +2,19 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package converter;
+package addressbook.infrastructure.convertors;
 
+import addressbook.infrastructure.interfaces.IConvertable;
 import java.util.HashMap;
-import mocks.INullable;
-import mocks.PersonMock;
-import mocks.PhoneMock;
+import addressbook.infrastructure.interfaces.INullable;
+import addressbook.mocks.profile.PersonMock;
+import addressbook.mocks.profile.PhoneMock;
 
 /**
  *
  * @author Jeka
  */
-public class PersonConverter implements IConverter {
+public class PersonConverter implements IConvertable {
 
     @Override
     public INullable toObject(HashMap<String, String> dictionary) throws ConverterException {
@@ -34,7 +35,7 @@ public class PersonConverter implements IConverter {
 
     @Override
     public HashMap<String, String> toDictionary(INullable mock) throws ConverterException {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<>();
         if (mock != null) {
             try {
                 PersonMock amock = (PersonMock) mock;

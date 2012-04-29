@@ -4,17 +4,17 @@
  */
 package orm;
 
-import converter.ConverterException;
-import converter.ConverterFabric;
+import addressbook.infrastructure.convertors.ConverterException;
+import addressbook.infrastructure.convertors.ConverterFabric;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mocks.ByteConverter;
-import mocks.PersonMock;
-import mocks.PhoneMock;
+import addressbook.mocks.profile.ByteConverter;
+import addressbook.mocks.profile.PersonMock;
+import addressbook.mocks.profile.PhoneMock;
+import static org.junit.Assert.assertTrue;
 import org.junit.*;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -128,4 +128,11 @@ public class NewTest {
         assertTrue(mock.getBirthDate().equals(mock2.getBirthDate()));
         assertTrue(mock.getEMail().equals(mock2.getEMail()));
     }
+    
+    @Test
+    public void daoTest(){
+        Class clazz=String.class;
+        HashMap<String,Class<?>> a=new HashMap<>();
+        a.put("str", clazz);
+    } 
 }
