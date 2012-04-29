@@ -4,6 +4,7 @@
  */
 package addressbook.mocks.profile;
 
+import addressbook.infrastructure.convertors.ByteConverter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,7 +26,6 @@ public class AddressMock implements INullable, IAssignable, IBinarySerializable,
         boolean ans = true;
         if (mock.getId() <= 0 || mock.getPerson_id() <= 0
                 || mock.isNull() || null == mock) {
-
             ans = false;
         }
         return ans;

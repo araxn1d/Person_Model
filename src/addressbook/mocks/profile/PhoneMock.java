@@ -4,6 +4,7 @@
  */
 package addressbook.mocks.profile;
 
+import addressbook.infrastructure.convertors.ByteConverter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

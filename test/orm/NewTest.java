@@ -6,7 +6,7 @@ package orm;
 
 import addressbook.infrastructure.convertors.ConverterException;
 import addressbook.infrastructure.convertors.ConverterFabric;
-import addressbook.mocks.profile.ByteConverter;
+import addressbook.infrastructure.convertors.ByteConverter;
 import addressbook.mocks.profile.PersonMock;
 import addressbook.mocks.profile.PhoneMock;
 import java.io.UnsupportedEncodingException;

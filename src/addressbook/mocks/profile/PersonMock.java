@@ -4,6 +4,7 @@
  */
 package addressbook.mocks.profile;
 
+import addressbook.infrastructure.convertors.ByteConverter;
 import addressbook.infrastructure.interfaces.INullable;
 import addressbook.infrastructure.interfaces.IAssignable;
 import addressbook.infrastructure.interfaces.IBinarySerializable;
