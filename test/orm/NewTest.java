@@ -6,13 +6,13 @@ package orm;
 
 import addressbook.infrastructure.convertors.ConverterException;
 import addressbook.infrastructure.convertors.ConverterFabric;
+import addressbook.mocks.profile.ByteConverter;
+import addressbook.mocks.profile.PersonMock;
+import addressbook.mocks.profile.PhoneMock;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import addressbook.mocks.profile.ByteConverter;
-import addressbook.mocks.profile.PersonMock;
-import addressbook.mocks.profile.PhoneMock;
 import static org.junit.Assert.assertTrue;
 import org.junit.*;
 
@@ -105,7 +105,7 @@ public class NewTest {
         mock.setId(10);
         mock.setPerson_id(11);
         mock.setPhone("9999");
-        HashMap<String, String> dictionary = ConverterFabric.getInstance(PhoneMock.class).toDictionary(mock);
+        HashMap<String, Object> dictionary = ConverterFabric.getInstance(PhoneMock.class).toDictionary(mock);
         PhoneMock mock2 = (PhoneMock) ConverterFabric.getInstance(PhoneMock.class).toObject(dictionary);
         assertTrue(mock.getId() == mock2.getId());
         assertTrue(mock.getPerson_id() == mock2.getPerson_id());
@@ -120,7 +120,7 @@ public class NewTest {
         mock.setLastName("Vasilek");
         mock.setBirthDate("1992");
         mock.setEMail("vasia@mai.ru");
-        HashMap<String, String> dictionary = ConverterFabric.getInstance(PersonMock.class).toDictionary(mock);
+        HashMap<String, Object> dictionary = ConverterFabric.getInstance(PersonMock.class).toDictionary(mock);
         PersonMock mock2 = (PersonMock) ConverterFabric.getInstance(PersonMock.class).toObject(dictionary);
         assertTrue(mock.getId() == mock2.getId());
         assertTrue(mock.getFirstName().equals(mock2.getFirstName()));

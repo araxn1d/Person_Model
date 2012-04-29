@@ -14,7 +14,11 @@ import addressbook.mocks.profile.PhoneMock;
  */
 public class ProductModel {
 
-    public ProductModel() {
+    public static ProductModel getInstance(PersonMock person, AddressMock adress, PhoneMock phone) {
+        return new ProductModel(person, adress, phone);
+    }
+
+    private ProductModel() {
         this(new PersonMock(), new AddressMock(), new PhoneMock());
     }
 

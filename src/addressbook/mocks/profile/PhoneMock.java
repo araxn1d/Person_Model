@@ -9,13 +9,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import addressbook.infrastructure.interfaces.IAssignable;
 import addressbook.infrastructure.interfaces.IBinarySerializable;
+import addressbook.infrastructure.interfaces.ICloneable;
 import addressbook.infrastructure.interfaces.INullable;
 
 /**
  *
  * @author Jeka
  */
-public class PhoneMock implements INullable, IAssignable, IBinarySerializable {
+public class PhoneMock implements INullable, IAssignable, IBinarySerializable, ICloneable {
 
     public static final String TABLE_NAME = "Phones";
     public static final int MAX_LENGTH = 30;
@@ -35,6 +36,13 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerializable {
         this.setId(id);
         this.setPerson_id(person_id);
         this.setPhone(phone);
+    }
+
+    @Override
+    public Object clone() {
+        PhoneMock phoneMock = new PhoneMock();
+        assignTo(phoneMock);
+        return phoneMock;
     }
 
     @Override

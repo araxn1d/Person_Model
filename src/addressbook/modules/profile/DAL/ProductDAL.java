@@ -15,9 +15,9 @@ import java.sql.*;
  *
  * @author Jeka
  */
-public class ProductDAO {
+public class ProductDAL {
 
-    public ProductDAO(String name, String passw, String db_url, String driverName) {
+    public ProductDAL(String name, String passw, String db_url, String driverName) {
         this.m_name = name;
         this.m_password = passw;
         this.m_url = db_url;

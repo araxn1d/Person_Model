@@ -7,6 +7,7 @@ package addressbook.mocks.profile;
 import addressbook.infrastructure.interfaces.INullable;
 import addressbook.infrastructure.interfaces.IAssignable;
 import addressbook.infrastructure.interfaces.IBinarySerializable;
+import addressbook.infrastructure.interfaces.ICloneable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,7 +16,7 @@ import java.io.OutputStream;
  *
  * @author Jeka
  */
-public class PersonMock implements INullable, IAssignable, IBinarySerializable {
+public class PersonMock implements INullable, IAssignable, IBinarySerializable,ICloneable {
 
     public static final String TABLE_NAME = "Persons";
     public static final int MAX_LENGTH = 30;
@@ -38,6 +39,14 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable {
         this.setEMail(eMail);
     }
 
+     @Override
+    public Object clone()
+    {
+          PersonMock personMock = new PersonMock();
+          assignTo(personMock);
+          return personMock;
+    }
+     
     @Override
     public boolean assignTo(Object obj) {
         boolean ans = false;

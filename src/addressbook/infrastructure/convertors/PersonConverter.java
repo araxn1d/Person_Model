@@ -5,10 +5,9 @@
 package addressbook.infrastructure.convertors;
 
 import addressbook.infrastructure.interfaces.IConvertable;
-import java.util.HashMap;
 import addressbook.infrastructure.interfaces.INullable;
 import addressbook.mocks.profile.PersonMock;
-import addressbook.mocks.profile.PhoneMock;
+import java.util.HashMap;
 
 /**
  *
@@ -17,15 +16,15 @@ import addressbook.mocks.profile.PhoneMock;
 public class PersonConverter implements IConvertable {
 
     @Override
-    public INullable toObject(HashMap<String, String> dictionary) throws ConverterException {
+    public INullable toObject(HashMap<String, Object> dictionary) throws ConverterException {
         PersonMock mock = new PersonMock();
         if (dictionary != null) {
             try {
-                mock.setId(Integer.valueOf(dictionary.get("ID")));
-                mock.setFirstName(dictionary.get("FirstName"));
-                mock.setLastName(dictionary.get("LastName"));
-                mock.setBirthDate(dictionary.get("BirthDate"));
-                mock.setEMail(dictionary.get("eMail"));
+                mock.setId((Integer) dictionary.get("ID"));
+                mock.setFirstName((String) dictionary.get("FirstName"));
+                mock.setLastName((String) dictionary.get("LastName"));
+                mock.setBirthDate((String) dictionary.get("BirthDate"));
+                mock.setEMail((String) dictionary.get("eMail"));
             } catch (Throwable e) {
                 throw new ConverterException(e.getMessage());
             }
@@ -34,16 +33,16 @@ public class PersonConverter implements IConvertable {
     }
 
     @Override
-    public HashMap<String, String> toDictionary(INullable mock) throws ConverterException {
-        HashMap<String, String> map = new HashMap<>();
+    public HashMap<String, Object> toDictionary(INullable mock) throws ConverterException {
+        HashMap<String, Object> map = new HashMap<>();
         if (mock != null) {
             try {
                 PersonMock amock = (PersonMock) mock;
-                map.put("ID", String.valueOf(amock.getId()));
-                map.put("FirstName", String.valueOf(amock.getFirstName()));
-                map.put("LastName", String.valueOf(amock.getLastName()));
-                map.put("BirthDate", String.valueOf(amock.getBirthDate()));
-                map.put("eMail", String.valueOf(amock.getEMail()));
+                map.put("ID", amock.getId());
+                map.put("FirstName", amock.getFirstName());
+                map.put("LastName", amock.getLastName());
+                map.put("BirthDate", amock.getBirthDate());
+                map.put("eMail", amock.getEMail());
             } catch (Throwable e) {
                 throw new ConverterException(e.getMessage());
             }
