@@ -9,5 +9,13 @@ package addressbook.infrastructure.interfaces;
  * @author Jeka
  */
 public interface IAssignable {
-    public boolean assignTo(Object obj);
+
+    /**
+     * Copy the data of current object to the target object
+     *
+     * @param obj - the object that will contains the copies of the current
+     * object fields.
+     * @return true if the method was successful , false if method failed
+     */
+    public boolean AssignTo(Object obj);
 }

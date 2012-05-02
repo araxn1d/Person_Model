@@ -9,6 +9,10 @@ package addressbook.infrastructure.convertors;
  * @author Jeka
  */
 public class ConverterException extends Exception{
+    /**
+     * 
+     * @param s 
+     */
     public ConverterException(String s){
         super(s+"\n"+ConverterException.class.getName()+" Converter Exception");
     }

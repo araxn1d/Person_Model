@@ -9,5 +9,5 @@ package addressbook.infrastructure.interfaces;
  * @author Jeka
  */
 public interface IValidator {
-    public void validate();
+    public void Validate();
 }

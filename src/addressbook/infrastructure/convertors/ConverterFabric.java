@@ -15,10 +15,18 @@ import addressbook.mocks.profile.PhoneMock;
  */
 public class ConverterFabric {
 
+    /**
+     * 
+     */
     private ConverterFabric() {
     }
-    
-    public static IConvertable getInstance(Class clazz) throws ConverterException  {
+    /**
+     * 
+     * @param clazz
+     * @return
+     * @throws ConverterException 
+     */
+    public static IConvertable GetInstance(Class clazz) throws ConverterException  {
         if (clazz.getSimpleName().equals(PersonMock.class.getSimpleName())) {
             return new PersonConverter();
         }
@@ -26,7 +34,7 @@ public class ConverterFabric {
             return new PhoneConverter();
         }
         if (clazz.getSimpleName().equals(AddressMock.class.getSimpleName())) {
-            return new AdressConverter();
+            return new AddressConverter();
         }
         throw new ConverterException("Fabric exception");
     }

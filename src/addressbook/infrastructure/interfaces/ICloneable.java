@@ -9,5 +9,10 @@ package addressbook.infrastructure.interfaces;
  * @author Jeka
  */
 public interface ICloneable {
-    public Object clone();
+
+    /**
+     *
+     * @return the clone of the current object
+     */
+    public Object Clone();
 }

@@ -9,5 +9,10 @@ package addressbook.infrastructure.interfaces;
  * @author Jeka
  */
 public interface INullable {
-    public boolean isNull();
+
+    /**
+     *
+     * @return true if object is nullable ,else returns false
+     */
+    public boolean IsNull();
 }

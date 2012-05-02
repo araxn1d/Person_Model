@@ -13,7 +13,12 @@ public class ByteConverter {
     private ByteConverter() {
     }
 
-    public static final byte[] intToByteArray(int value) {
+    /**
+     * 
+     * @param value
+     * @return 
+     */
+    public static final byte[] IntToByteArray(int value) {
         return new byte[]{
                     (byte) (value >>> 24),
                     (byte) (value >>> 16),
@@ -21,7 +26,12 @@ public class ByteConverter {
                     (byte) value};
     }
 
-    public static final int byteArrayToInt(byte[] b) {
+    /**
+     * 
+     * @param b
+     * @return 
+     */
+    public static final int ByteArrayToInt(byte[] b) {
         return (b[0] << 24)
                 + ((b[1] & 0xFF) << 16)
                 + ((b[2] & 0xFF) << 8)

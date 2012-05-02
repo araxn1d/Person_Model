@@ -9,7 +9,9 @@ import addressbook.mocks.profile.AddressMock;
 import addressbook.mocks.profile.PersonMock;
 import addressbook.mocks.profile.PhoneMock;
 import addressbook.modules.profile.models.ProductModel;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  *
@@ -17,6 +19,13 @@ import java.sql.*;
  */
 public class ProductDAL {
 
+    /**
+     * 
+     * @param name
+     * @param passw
+     * @param db_url
+     * @param driverName 
+     */
     public ProductDAL(String name, String passw, String db_url, String driverName) {
         this.m_name = name;
         this.m_password = passw;
@@ -24,18 +33,23 @@ public class ProductDAL {
         this.m_driverName = driverName;
     }
 
+    /**
+     * 
+     * @param id
+     * @return 
+     */
     protected AddressMock getAdressMockByID(int id) {
         return null;
     }
 
-//    public PhoneMock getPhoneMockByID(PhoneMock mock) throws SQLException, ConverterException {
-////       / HashMap <String,Class<?>> conv=ConverterFabric.getInstance(PhoneMock.class).toDictionary(new PhoneMock(10,10,"99"));
+    public PhoneMock getPhoneMockByID(PhoneMock mock) throws SQLException, ConverterException {
+//        HashMap <String,Class<?>> conv=ConverterFabric.getInstance(PhoneMock.class).toDictionary(new PhoneMock(10,10,"99"));
 //        createConnection();
 //        Statement a=m_connection.createStatement();
 //        a.execute("SELECT * FROM "+PhoneMock.TABLE_NAME+" WHERE ID="+mock.getPerson_id());
 //        ResultSet set=a.getResultSet();
-//       // set.get
-//    }
+        return null;
+    }
 
     protected PersonMock getPersonMockByID(int id) {
         return null;

@@ -14,23 +14,43 @@ import addressbook.mocks.profile.PhoneMock;
  */
 public class ProductModel {
 
+    /**
+     * 
+     * @param person
+     * @param adress
+     * @param phone
+     * @return 
+     */
     public static ProductModel getInstance(PersonMock person, AddressMock adress, PhoneMock phone) {
         return new ProductModel(person, adress, phone);
     }
-
+    
+    /**
+     * 
+     */
     private ProductModel() {
         this(new PersonMock(), new AddressMock(), new PhoneMock());
     }
 
+    /**
+     * 
+     * @param person
+     * @param adress
+     * @param phone 
+     */
     private ProductModel(PersonMock person, AddressMock adress, PhoneMock phone) {
-        boolean a = person.assignTo(this.m_person);
-        boolean b = adress.assignTo(this.m_adress);
-        boolean c = phone.assignTo(this.m_phone);
+        boolean a = person.AssignTo(this.m_person);
+        boolean b = adress.AssignTo(this.m_adress);
+        boolean c = phone.AssignTo(this.m_phone);
 
         if (a && b && c) {
         }
     }
 
+    /**
+     * 
+     * @return 
+     */
     public static boolean validate() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -56,7 +76,7 @@ public class ProductModel {
     }
 
     public String getAdress() {
-        return m_adress.getAdress();
+        return m_adress.GetAdress();
     }
     protected AddressMock m_adress = null;
     protected PhoneMock m_phone = null;
