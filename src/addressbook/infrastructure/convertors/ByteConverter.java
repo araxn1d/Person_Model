@@ -14,9 +14,10 @@ public class ByteConverter {
     }
 
     /**
-     * 
-     * @param value
-     * @return 
+     * Converts int to the byte array
+     *
+     * @param value - number to convert
+     * @return - converting array of byte
      */
     public static final byte[] IntToByteArray(int value) {
         return new byte[]{
@@ -27,9 +28,10 @@ public class ByteConverter {
     }
 
     /**
-     * 
-     * @param b
-     * @return 
+     * Convert byte array to the int value
+     *
+     * @param b - array to convert
+     * @return - new int
      */
     public static final int ByteArrayToInt(byte[] b) {
         return (b[0] << 24)

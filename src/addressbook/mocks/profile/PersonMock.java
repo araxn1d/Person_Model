@@ -9,9 +9,11 @@ import addressbook.infrastructure.interfaces.IAssignable;
 import addressbook.infrastructure.interfaces.IBinarySerializable;
 import addressbook.infrastructure.interfaces.ICloneable;
 import addressbook.infrastructure.interfaces.INullable;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 /**
  *
@@ -19,11 +21,11 @@ import java.io.OutputStream;
  */
 public class PersonMock implements INullable, IAssignable, IBinarySerializable, ICloneable {
 
+    public static final String ENCODING = "UTF-8";
     public static final String TABLE_NAME = "Persons";
     public static final int MAX_LENGTH = 30;
 
     /**
-     *
      * @return new nullable instance of AdressMock
      */
     public static PersonMock getNullableInstance() {
@@ -33,13 +35,12 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
     }
 
     /**
-     *
      * @param mock - PersonMock object, fields of which should be validated
      * @return true if validation was success , false if validation failed
      */
     public static boolean validate(PersonMock mock) {
         boolean result = true;
-        if (mock.getId() <= 0 || mock.m_isNull || null == mock) {
+        if (mock.GetId() <= 0 || mock.m_isNull || null == mock) {
             result = false;
         }
         return result;
@@ -58,7 +59,6 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
     }
 
     /**
-     *
      * @param id - the unique identifier of entry in the table
      * @param firstName - the first name of the person
      * @param lastName - the last name of the person
@@ -66,17 +66,16 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
      * @param eMail - the email that owns person
      */
     public PersonMock(int id, String firstName, String lastName, String birthDate, String eMail) {
-        this.setId(id);
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
-        this.setEMail(eMail);
+        this.SetId(id);
+        this.SetFirstName(firstName);
+        this.SetLastName(lastName);
+        this.SetEMail(eMail);
     }
 
     /**
      * (non-Javadoc)
      *
      * @see addressbook.infrastructure.interfaces.ICloneable#Clone()
-     *
      */
     @Override
     public Object Clone() {
@@ -90,7 +89,6 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
      *
      * @see
      * addressbook.infrastructure.interfaces.IAssignable#AssignTo(java.lang.Object)
-     *
      */
     @Override
     public boolean AssignTo(Object obj) {
@@ -98,11 +96,11 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
         if ((obj != null) && (obj instanceof PersonMock)) {
             PersonMock mock = (PersonMock) obj;
 
-            mock.setId(this.getId());
-            mock.setFirstName(this.getFirstName());
-            mock.setLastName(this.getLastName());
-            mock.setBirthDate(this.getBirthDate());
-            mock.setEMail(this.getEMail());
+            mock.SetId(this.GetId());
+            mock.SetFirstName(this.GetFirstName());
+            mock.SetLastName(this.GetLastName());
+            mock.SetBirthDate(this.GetBirthDate());
+            mock.SetEMail(this.GetEMail());
 
             ans = true;
         }
@@ -114,38 +112,37 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
      *
      * @see
      * addressbook.infrastructure.interfaces.IBinarySerializable#Read(java.io.InputStream)
-     *
      */
     @Override
-    public Object Read(InputStream stream) {
+    public boolean Read(InputStream stream) {
         try {
-            //Cr8 new byte array that will contain the mock's fields
-            //like id [4 bytes] and firstName [max 100 bytes]
-            byte[] in = new byte[4 + 100 + 100 + 100 + 100];
+            DataInputStream input = new DataInputStream(stream);
 
-            //fill byte array from the stream
-            stream.read(in);
+            // create variables to store read values
+            int id;
+            // create array of PersonMock fields to store read values
+            String[] fields = new String[4];
+            // read id
+            id = input.readInt();
 
-            byte[] id_b = new byte[4];
-            byte[] fname_b = new byte[100];
-            byte[] lname_b = new byte[100];
-            byte[] birth_b = new byte[100];
-            byte[] email_b = new byte[100];
-
-            //copy bytes from filled byte array(in) to mock's fields byte arrays
-            System.arraycopy(in, 0, id_b, 0, 4);
-            System.arraycopy(in, 4, fname_b, 0, 100);
-            System.arraycopy(in, 104, lname_b, 0, 100);
-            System.arraycopy(in, 204, birth_b, 0, 100);
-            System.arraycopy(in, 304, email_b, 0, 100);
-
-            //set the mock's properties ,trim the empty bytes of the String
-            this.setId(ByteConverter.ByteArrayToInt(id_b));
-            this.setFirstName(new String(fname_b, "UTF-8").trim());
-            this.setLastName(new String(lname_b, "UTF-8").trim());
-            this.setBirthDate(new String(birth_b, "UTF-8").trim());
-            this.setEMail(new String(email_b, "UTF-8").trim());
-
+            // read and fill every field value if length of it is not
+            //equals -1
+            for (int i = 0; i < fields.length; i++) {
+                fields[i] = null;
+                byte length = (byte) input.readByte();
+                if (length != -1) {
+                    byte[] phoneBytes = new byte[length];
+                    // read phone bytes and create String value
+                    input.read(phoneBytes, 0, length);
+                    fields[i] = new String(phoneBytes, ENCODING);
+                }
+            }
+            //set values to the object
+            this.SetId(id);
+            this.SetFirstName(fields[0]);
+            this.SetLastName(fields[1]);
+            this.SetBirthDate(fields[2]);
+            this.SetEMail(fields[3]);
             //return true if method ran succesfull else return false
             return true;
         } catch (IOException ex) {
@@ -160,30 +157,31 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
      *
      * @see
      * addressbook.infrastructure.interfaces.IBinarySerializable#Write(java.io.OutputStream)
-     *
      */
     @Override
     public boolean Write(OutputStream stream) {
         try {
-            //Cr8 new byte array that will contain the mock's fields
-            //like id [4 bytes] and firstName [max 100 bytes]
-            byte[] out = new byte[4 + 100 + 100 + 100 + 100];
+            //writes  id to the stream
+            stream.write(ByteConverter.IntToByteArray(this.GetId()));
 
-            //fill byte arrays that represents mock's fields
-            byte[] id_b = ByteConverter.IntToByteArray(this.getId());
-            byte[] fname_b = this.getFirstName().getBytes("UTF-8");
-            byte[] lname_b = this.getLastName().getBytes("UTF-8");
-            byte[] birth_b = this.getBirthDate().getBytes("UTF-8");
-            byte[] email_b = this.getEMail().getBytes("UTF-8");
+            //cr8 array of PersonMock String fields
+            String[] fields = new String[4];
+            fields[0] = this.GetFirstName();
+            fields[1] = this.GetLastName();
+            fields[2] = this.GetBirthDate();
+            fields[3] = this.GetEMail();
 
-            //copy data to out array,that will be write to the stream
-            System.arraycopy(id_b, 0, out, 0, 4);
-            System.arraycopy(fname_b, 0, out, 4, fname_b.length);
-            System.arraycopy(lname_b, 0, out, 104, lname_b.length);
-            System.arraycopy(birth_b, 0, out, 204, birth_b.length);
-            System.arraycopy(email_b, 0, out, 304, email_b.length);
-
-            stream.write(out);
+            //check every field if it equals null then write -1,else field's
+            //length and all field
+            for (int i = 0; i < fields.length; i++) {
+                if (null == fields[i]) {
+                    stream.write(ByteConverter.IntToByteArray(-1));
+                } else {
+                    byte[] towrite = fields[i].getBytes(ENCODING);
+                    stream.write(ByteConverter.IntToByteArray(towrite.length));
+                    stream.write(towrite);
+                }
+            }
             //return true if method ran succesfull else return false
             return true;
         } catch (IOException ex) {
@@ -197,68 +195,122 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
      * (non-Javadoc)
      *
      * @see addressbook.infrastructure.interfaces.INullable#IsNull()
-     *
      */
     @Override
     public boolean IsNull() {
         return m_isNull;
     }
 
-    public String getEMail() {
+    /**
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PersonMock other = (PersonMock) obj;
+        if (this.m_id != other.m_id) {
+            return false;
+        }
+        if (!Objects.equals(this.m_firstName, other.m_firstName)) {
+            return false;
+        }
+        if (!Objects.equals(this.m_lastName, other.m_lastName)) {
+            return false;
+        }
+        if (!Objects.equals(this.m_birthDate, other.m_birthDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.m_eMail, other.m_eMail)) {
+            return false;
+        }
+        if (this.m_isNull != other.m_isNull) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 67 * hash + this.m_id;
+        hash = 67 * hash + Objects.hashCode(this.m_firstName);
+        hash = 67 * hash + Objects.hashCode(this.m_lastName);
+        hash = 67 * hash + Objects.hashCode(this.m_birthDate);
+        hash = 67 * hash + Objects.hashCode(this.m_eMail);
+        hash = 67 * hash + (this.m_isNull ? 1 : 0);
+        return hash;
+    }
+
+    public String GetEMail() {
         return m_eMail;
     }
 
-    public void setEMail(String m_eMail) {
-        this.m_eMail = cutString(m_eMail, PersonMock.MAX_LENGTH);
+    public void SetEMail(String eMail) {
+        if (null != eMail) {
+            this.m_eMail = cutString(eMail, PersonMock.MAX_LENGTH);
+        }
     }
 
-    public String getBirthDate() {
+    public String GetBirthDate() {
         return m_birthDate;
     }
 
-    public void setBirthDate(String m_BirthDate) {
-        this.m_birthDate = cutString(m_BirthDate, PersonMock.MAX_LENGTH);
+    public void SetBirthDate(String birthDate) {
+        if (null != birthDate) {
+            this.m_birthDate = cutString(birthDate, PersonMock.MAX_LENGTH);
+        }
     }
 
-    public String getLastName() {
+    public String GetLastName() {
         return m_lastName;
     }
 
-    public void setLastName(String m_LastName) {
-        this.m_lastName = cutString(m_LastName, PersonMock.MAX_LENGTH);
+    public void SetLastName(String lastName) {
+        if (null != lastName) {
+            this.m_lastName = cutString(lastName, PersonMock.MAX_LENGTH);
+        }
     }
 
-    public String getFirstName() {
+    public String GetFirstName() {
         return m_firstName;
     }
 
-    public void setFirstName(String m_FirstName) {
-        this.m_firstName = cutString(m_FirstName, PersonMock.MAX_LENGTH);
+    public void SetFirstName(String firstName) {
+        if (null != firstName) {
+            this.m_firstName = cutString(firstName, PersonMock.MAX_LENGTH);
+        }
     }
 
-    public int getId() {
+    public int GetId() {
         return m_id;
     }
 
-    public void setId(int m_id) {
+    public void SetId(int m_id) {
         this.m_id = m_id;
     }
 
     /**
-     *
      * @param prop - string that should be cuted
      * @param l - the maximum length of the prop parameter
      * @return cuted string
      */
     private String cutString(String prop, int l) {
-        if (null != prop) {
-            if (prop.length() > l) {
-                prop = prop.substring(0, l - 1);
-            }
-            return prop;
-        } else {
-            return "null String";
+        if (prop.length() > l) {
+            prop = prop.substring(0, l - 1);
         }
+        return prop;
     }
     private int m_id = 0;
     private String m_firstName = null;

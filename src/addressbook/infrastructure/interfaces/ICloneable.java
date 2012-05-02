@@ -11,7 +11,7 @@ package addressbook.infrastructure.interfaces;
 public interface ICloneable {
 
     /**
-     *
+     * Clone object(owner of the method)
      * @return the clone of the current object
      */
     public Object Clone();

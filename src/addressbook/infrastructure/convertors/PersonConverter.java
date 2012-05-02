@@ -27,11 +27,11 @@ public class PersonConverter implements IConvertable {
         PersonMock mock = new PersonMock();
         if (dictionary != null) {
             try {
-                mock.setId((Integer) dictionary.get("id"));
-                mock.setFirstName((String) dictionary.get("firstname"));
-                mock.setLastName((String) dictionary.get("lastname"));
-                mock.setBirthDate((String) dictionary.get("birthdate"));
-                mock.setEMail((String) dictionary.get("email"));
+                mock.SetId((Integer) dictionary.get("id"));
+                mock.SetFirstName((String) dictionary.get("firstname"));
+                mock.SetLastName((String) dictionary.get("lastname"));
+                mock.SetBirthDate((String) dictionary.get("birthdate"));
+                mock.SetEMail((String) dictionary.get("email"));
             } catch (Throwable e) {
                 throw new ConverterException(e.getMessage());
             }
@@ -52,11 +52,11 @@ public class PersonConverter implements IConvertable {
         if (mock != null) {
             try {
                 PersonMock amock = (PersonMock) mock;
-                map.put("id", amock.getId());
-                map.put("firstname", amock.getFirstName());
-                map.put("lastname", amock.getLastName());
-                map.put("birthdate", amock.getBirthDate());
-                map.put("email", amock.getEMail());
+                map.put("id", amock.GetId());
+                map.put("firstname", amock.GetFirstName());
+                map.put("lastname", amock.GetLastName());
+                map.put("birthdate", amock.GetBirthDate());
+                map.put("email", amock.GetEMail());
             } catch (Throwable e) {
                 throw new ConverterException(e.getMessage());
             }

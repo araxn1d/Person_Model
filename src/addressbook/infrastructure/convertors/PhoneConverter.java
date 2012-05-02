@@ -27,9 +27,9 @@ public class PhoneConverter implements IConvertable {
         PhoneMock mock = new PhoneMock();
         if (dictionary != null) {
             try {
-                mock.setId((Integer) dictionary.get("id"));
-                mock.setPerson_id((Integer) dictionary.get("personid"));
-                mock.setPhone((String) dictionary.get("phone"));
+                mock.SetId((Integer) dictionary.get("id"));
+                mock.SetPersonId((Integer) dictionary.get("personid"));
+                mock.SetPhone((String) dictionary.get("phone"));
             } catch (Throwable e) {
                 throw new ConverterException(e.getMessage());
             }
@@ -50,9 +50,9 @@ public class PhoneConverter implements IConvertable {
         if (mock != null) {
             try {
                 PhoneMock amock = (PhoneMock) mock;
-                map.put("id", amock.getId());
-                map.put("personid", amock.getPerson_id());
-                map.put("phone", amock.getPhone());
+                map.put("id", amock.GetId());
+                map.put("personid", amock.GetPersonId());
+                map.put("phone", amock.GetPhone());
             } catch (Throwable e) {
                 throw new ConverterException(e.getMessage());
             }

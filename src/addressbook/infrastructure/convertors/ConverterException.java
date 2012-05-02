@@ -10,8 +10,8 @@ package addressbook.infrastructure.convertors;
  */
 public class ConverterException extends Exception{
     /**
-     * 
-     * @param s 
+     * An exception that appears during the execution of the conversion
+     * @param s - message
      */
     public ConverterException(String s){
         super(s+"\n"+ConverterException.class.getName()+" Converter Exception");

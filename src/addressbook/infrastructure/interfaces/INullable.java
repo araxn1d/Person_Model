@@ -11,7 +11,7 @@ package addressbook.infrastructure.interfaces;
 public interface INullable {
 
     /**
-     *
+     * Tells whether the object has nullable data
      * @return true if object is nullable ,else returns false
      */
     public boolean IsNull();

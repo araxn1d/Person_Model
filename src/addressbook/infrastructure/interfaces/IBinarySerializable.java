@@ -14,16 +14,18 @@ import java.io.OutputStream;
 public interface IBinarySerializable {
 
     /**
+     * Deserialize object data from stream.
      *
-     * @param stream
-     * @return
+     * @param stream - the input stream what we read byte data from
+     * @return - true if method was successful,else false
      */
-    public Object Read(InputStream stream);
+    public boolean Read(InputStream stream);
 
     /**
+     * Serialize object data to stream
      *
-     * @param stream
-     * @return
+     * @param stream -the output stream what we write byte data to
+     * @return - true if method was successful,else false
      */
     public boolean Write(OutputStream stream);
 }

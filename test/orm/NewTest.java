@@ -102,31 +102,31 @@ public class NewTest {
     @Test
     public void phoneConvertorTest() throws ConverterException {
         PhoneMock mock = new PhoneMock();
-        mock.setId(10);
-        mock.setPerson_id(11);
-        mock.setPhone("9999");
+        mock.SetId(10);
+        mock.SetPersonId(11);
+        mock.SetPhone("9999");
         HashMap<String, Object> dictionary = ConverterFabric.GetInstance(PhoneMock.class).ToDictionary(mock);
         PhoneMock mock2 = (PhoneMock) ConverterFabric.GetInstance(PhoneMock.class).ToObject(dictionary);
-        assertTrue(mock.getId() == mock2.getId());
-        assertTrue(mock.getPerson_id() == mock2.getPerson_id());
-        assertTrue(mock.getPhone().equals(mock2.getPhone()));
+        assertTrue(mock.GetId() == mock2.GetId());
+        assertTrue(mock.GetPersonId() == mock2.GetPersonId());
+        assertTrue(mock.GetPhone().equals(mock2.GetPhone()));
     }
 
     @Test
     public void personConvertorTest() throws ConverterException {
         PersonMock mock = new PersonMock();
-        mock.setId(10);
-        mock.setFirstName("Vasia");
-        mock.setLastName("Vasilek");
-        mock.setBirthDate("1992");
-        mock.setEMail("vasia@mai.ru");
+        mock.SetId(10);
+        mock.SetFirstName("Vasia");
+        mock.SetLastName("Vasilek");
+        mock.SetBirthDate("1992");
+        mock.SetEMail("vasia@mai.ru");
         HashMap<String, Object> dictionary = ConverterFabric.GetInstance(PersonMock.class).ToDictionary(mock);
         PersonMock mock2 = (PersonMock) ConverterFabric.GetInstance(PersonMock.class).ToObject(dictionary);
-        assertTrue(mock.getId() == mock2.getId());
-        assertTrue(mock.getFirstName().equals(mock2.getFirstName()));
-        assertTrue(mock.getLastName().equals(mock2.getLastName()));
-        assertTrue(mock.getBirthDate().equals(mock2.getBirthDate()));
-        assertTrue(mock.getEMail().equals(mock2.getEMail()));
+        assertTrue(mock.GetId() == mock2.GetId());
+        assertTrue(mock.GetFirstName().equals(mock2.GetFirstName()));
+        assertTrue(mock.GetLastName().equals(mock2.GetLastName()));
+        assertTrue(mock.GetBirthDate().equals(mock2.GetBirthDate()));
+        assertTrue(mock.GetEMail().equals(mock2.GetEMail()));
     }
     
     @Test

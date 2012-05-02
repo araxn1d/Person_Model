@@ -16,14 +16,15 @@ import addressbook.mocks.profile.PhoneMock;
 public class ConverterFabric {
 
     /**
-     * 
+     * Empty private constructor
+     * not allowed to create ConverFabric objects
      */
     private ConverterFabric() {
     }
     /**
      * 
-     * @param clazz
-     * @return
+     * @param clazz - the value which determines the behavior of the fabric
+     * @return - the concrete Fabric
      * @throws ConverterException 
      */
     public static IConvertable GetInstance(Class clazz) throws ConverterException  {
