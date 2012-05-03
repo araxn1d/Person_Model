@@ -7,16 +7,19 @@ package addressbook.modules.profile.models;
 import addressbook.infrastructure.interfaces.IAssignable;
 import addressbook.infrastructure.interfaces.ICloneable;
 import addressbook.infrastructure.interfaces.INullable;
+import addressbook.infrastructure.interfaces.IValidator;
 import addressbook.mocks.profile.AddressMock;
 import addressbook.mocks.profile.PersonMock;
 import addressbook.mocks.profile.PhoneMock;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
  * @author Jeka
  */
-public class ProductModel implements INullable, ICloneable, IAssignable {
+public class ProductModel implements INullable, ICloneable, IAssignable, IValidator {
 
     /**
      * Fabric method, that create new Model instance
@@ -116,8 +119,24 @@ public class ProductModel implements INullable, ICloneable, IAssignable {
      *
      * @return true if object is valid (has valid fields) else return false
      */
-    public static boolean Validate() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Override
+    public boolean Validate() {
+        //Create patterns to validate fields of object
+        Pattern name = Pattern.compile(nameValidation);
+        Pattern date = Pattern.compile(birthDateValidtation);
+        Pattern email = Pattern.compile(eMailValidtation);
+        Pattern phone = Pattern.compile(phoneValidation);
+        //Create mathcers to match fieilds with patterns
+        Matcher fnameMatch = name.matcher(this.GetFirstName());
+        Matcher lnameMatch = name.matcher(this.GetLastName());
+        Matcher dateMatch = date.matcher(this.GetDate());
+        Matcher emailMatch = email.matcher(this.GetEMail());
+        Matcher phoneMatch = phone.matcher(this.GetPhone());
+        //define if the fields are valid
+        boolean ans = fnameMatch.matches() || lnameMatch.matches() || dateMatch.matches()
+                || emailMatch.matches() || phoneMatch.matches();
+
+        return ans;
     }
 
     /**
@@ -225,6 +244,21 @@ public class ProductModel implements INullable, ICloneable, IAssignable {
     public String GetAdress() {
         return m_adress.GetAdress();
     }
+
+    public void SetEMail(String mail) {
+        if (null != mail) {
+            m_person.SetEMail(mail);
+        }
+    }
+
+    public String GetEMail() {
+        return m_person.GetEMail();
+    }
+    //Patterns which should validate fields, such as FirstName, Phone and etc.
+    private String phoneValidation = "8-\\d{3}-\\d{2}-\\d{3}-\\d{2}";
+    private String eMailValidtation = "[a-z0-9]{1,14}@[a-z0-9]{1,6}\u002E[a-z]{1,3}";
+    private String birthDateValidtation = "19\\d\\d\u002E[0-1][0-9]\u002E[0-3][0-9]";
+    private String nameValidation = "[A-Z]{1}[a-z]{3,20}";
     protected AddressMock m_adress = null;
     protected PhoneMock m_phone = null;
     protected PersonMock m_person = null;

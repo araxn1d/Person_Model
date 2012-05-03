@@ -21,9 +21,6 @@ import java.util.Objects;
  */
 public class AddressMock implements INullable, IAssignable, IBinarySerializable, ICloneable {
 
-    /**
-     *
-     */
     public static final String ENCODING = "UTF-8";
     public static final String TABLE_NAME = "Adresses";
     public static final int MAX_LENGTH = 30;

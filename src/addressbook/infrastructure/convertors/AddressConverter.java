@@ -18,7 +18,8 @@ public class AddressConverter implements IConvertable {
     /**
      * (non-Javadoc)
      *
-     * @see addressbook.infrastructure.interfaces.IConvertable#ToObject(java.util.HashMap) 
+     * @see
+     * addressbook.infrastructure.interfaces.IConvertable#ToObject(java.util.HashMap)
      *
      */
     @Override
@@ -26,9 +27,9 @@ public class AddressConverter implements IConvertable {
         AddressMock mock = new AddressMock();
         if (dictionary != null) {
             try {
-                mock.SetId((Integer)dictionary.get("id"));
-                mock.SetPersonId((Integer)dictionary.get("personid"));
-                mock.SetAddress((String)dictionary.get("adress"));
+                mock.SetId((Integer) dictionary.get("id"));
+                mock.SetPersonId((Integer) dictionary.get("personid"));
+                mock.SetAddress((String) dictionary.get("address"));
             } catch (Throwable e) {
                 throw new ConverterException(e.getMessage());
             }
@@ -39,7 +40,8 @@ public class AddressConverter implements IConvertable {
     /**
      * (non-Javadoc)
      *
-     * @see addressbook.infrastructure.interfaces.IConvertable#ToDictionary(addressbook.infrastructure.interfaces.INullable) 
+     * @see
+     * addressbook.infrastructure.interfaces.IConvertable#ToDictionary(addressbook.infrastructure.interfaces.INullable)
      *
      */
     @Override
@@ -48,9 +50,9 @@ public class AddressConverter implements IConvertable {
         if (mock != null) {
             try {
                 AddressMock amock = (AddressMock) mock;
-                map.put("id",amock.GetId());
+                map.put("id", amock.GetId());
                 map.put("personid", amock.GetPersonId());
-                map.put("adress", amock.GetAdress());
+                map.put("address", amock.GetAdress());
             } catch (Throwable e) {
                 throw new ConverterException(e.getMessage());
             }

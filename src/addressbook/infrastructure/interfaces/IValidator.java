@@ -9,8 +9,10 @@ package addressbook.infrastructure.interfaces;
  * @author Jeka
  */
 public interface IValidator {
+
     /**
-     * 
+     * Method validate the owner object fields and return true if validation was
+     * successful else return false
      */
-    public void Validate();
+    public boolean Validate();
 }

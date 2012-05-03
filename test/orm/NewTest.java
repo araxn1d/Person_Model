@@ -4,12 +4,15 @@
  */
 package orm;
 
+import addressbook.infrastructure.convertors.ByteConverter;
 import addressbook.infrastructure.convertors.ConverterException;
 import addressbook.infrastructure.convertors.ConverterFabric;
-import addressbook.infrastructure.convertors.ByteConverter;
+import addressbook.mocks.profile.AddressMock;
 import addressbook.mocks.profile.PersonMock;
 import addressbook.mocks.profile.PhoneMock;
+import addressbook.modules.profile.DAL.ProductDAL;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -128,11 +131,19 @@ public class NewTest {
         assertTrue(mock.GetBirthDate().equals(mock2.GetBirthDate()));
         assertTrue(mock.GetEMail().equals(mock2.GetEMail()));
     }
-    
+
     @Test
-    public void daoTest(){
-        Class clazz=String.class;
-        HashMap<String,Class<?>> a=new HashMap<>();
+    public void daoTest() {
+        Class clazz = String.class;
+        HashMap<String, Class<?>> a = new HashMap<>();
         a.put("str", clazz);
-    } 
+    }
+
+    @Test
+    public void daoAddressTest() throws SQLException, ConverterException {
+        ProductDAL dal = new ProductDAL();
+        AddressMock mock = dal.getAdressMockByID(1);
+        System.out.println("ADDRESS="+mock.GetAdress());
+        assertTrue(mock.GetAdress().equals("Hello"));
+    }
 }
