@@ -182,6 +182,7 @@ public class ProductDAL {
         }
         return dictionary;
     }
+    
     private Connection m_connection = null;
     private String m_url = "jdbc:h2:~/test";
     private String m_login = "sa";

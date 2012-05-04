@@ -41,8 +41,11 @@ public class AddressMock implements INullable, IAssignable, IBinarySerialize, IC
      */
     public static boolean Validate(AddressMock mock) {
         boolean ans = true;
-        if (mock.GetId() <= 0 || mock.GetPersonId() <= 0
-                || mock.IsNull() || null == mock) {
+        if (null == mock) {
+            throw new IllegalStateException("Cant do nothing with funtion argument");
+        }
+        if (mock.GetId() < 1 || mock.GetPersonId() < 1
+                || mock.IsNull()) {
             ans = false;
         }
         return ans;
@@ -166,7 +169,7 @@ public class AddressMock implements INullable, IAssignable, IBinarySerialize, IC
             if (null == this.GetAdress()) {
                 stream.write(ByteConverter.IntToByteArray(-1));
             }
-            if (this.GetAdress().length()==0) {
+            if (this.GetAdress().length() == 0) {
                 stream.write(ByteConverter.IntToByteArray(0));
             }
             if (this.GetAdress().length() > 0) {
@@ -239,6 +242,9 @@ public class AddressMock implements INullable, IAssignable, IBinarySerialize, IC
     }
 
     public void SetId(int m_id) {
+        if (this.IsNull()) {
+            throw new IllegalStateException("Cant set field, object is Nullable");
+        }
         this.m_id = m_id;
     }
 
@@ -247,6 +253,9 @@ public class AddressMock implements INullable, IAssignable, IBinarySerialize, IC
     }
 
     public void SetAddress(String address) {
+        if (this.IsNull()) {
+            throw new IllegalStateException("Cant set field, object is Nullable");
+        }
         if (null != address) {
             this.m_adress = cutString(address, AddressMock.MAX_LENGTH);
         }
@@ -261,6 +270,9 @@ public class AddressMock implements INullable, IAssignable, IBinarySerialize, IC
     }
 
     public void SetPersonId(int person_id) {
+        if (this.IsNull()) {
+            throw new IllegalStateException("Cant set field, object is Nullable");
+        }
         this.m_person_id = person_id;
     }
 

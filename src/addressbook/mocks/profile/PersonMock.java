@@ -41,7 +41,10 @@ public class PersonMock implements INullable, IAssignable, IBinarySerialize, ICl
      */
     public static boolean validate(PersonMock mock) {
         boolean result = true;
-        if (mock.GetId() <= 0 || mock.m_isNull || null == mock) {
+        if (null == mock) {
+            throw new IllegalStateException("Cant do nothing with funtion argument");
+        }
+        if (mock.GetId() <= 0 || mock.m_isNull) {
             result = false;
         }
         return result;
@@ -264,6 +267,9 @@ public class PersonMock implements INullable, IAssignable, IBinarySerialize, ICl
     }
 
     public void SetEMail(String eMail) {
+        if (this.IsNull()) {
+            throw new IllegalStateException("Cant set field, object is Nullable");
+        }
         if (null != eMail) {
             this.m_eMail = cutString(eMail, PersonMock.MAX_LENGTH);
         }
@@ -274,6 +280,9 @@ public class PersonMock implements INullable, IAssignable, IBinarySerialize, ICl
     }
 
     public void SetBirthDate(String birthDate) {
+        if (this.IsNull()) {
+            throw new IllegalStateException("Cant set field, object is Nullable");
+        }
         if (null != birthDate) {
             this.m_birthDate = cutString(birthDate, PersonMock.MAX_LENGTH);
         }
@@ -284,6 +293,9 @@ public class PersonMock implements INullable, IAssignable, IBinarySerialize, ICl
     }
 
     public void SetLastName(String lastName) {
+        if (this.IsNull()) {
+            throw new IllegalStateException("Cant set field, object is Nullable");
+        }
         if (null != lastName) {
             this.m_lastName = cutString(lastName, PersonMock.MAX_LENGTH);
         }
@@ -294,6 +306,9 @@ public class PersonMock implements INullable, IAssignable, IBinarySerialize, ICl
     }
 
     public void SetFirstName(String firstName) {
+        if (this.IsNull()) {
+            throw new IllegalStateException("Cant set field, object is Nullable");
+        }
         if (null != firstName) {
             this.m_firstName = cutString(firstName, PersonMock.MAX_LENGTH);
         }
@@ -304,6 +319,9 @@ public class PersonMock implements INullable, IAssignable, IBinarySerialize, ICl
     }
 
     public void SetId(int m_id) {
+        if (this.IsNull()) {
+            throw new IllegalStateException("Cant set field, object is Nullable");
+        }
         this.m_id = m_id;
     }
 

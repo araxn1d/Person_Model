@@ -21,7 +21,7 @@ import java.util.Random;
  * @author Jeka
  */
 public class PhoneMock implements INullable, IAssignable, IBinarySerialize, ICloneable {
-    
+
     public static final String ENCODING = "UTF-8";
     public static final String TABLE_NAME = "Phones";
     public static final int MAX_LENGTH = 30;
@@ -42,7 +42,10 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerialize, IClo
      */
     public static boolean validate(PhoneMock mock) {
         boolean ans = true;
-        if (mock.GetId() <= 0 || mock.GetPersonId() <= 0 || mock.IsNull() || null == mock) {
+        if (null == mock) {
+            throw new IllegalStateException("Cant do nothing with funtion argument");
+        }
+        if (mock.GetId() <= 0 || mock.GetPersonId() <= 0 || mock.IsNull()) {
             ans = false;
         }
         return ans;
@@ -92,11 +95,11 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerialize, IClo
         boolean ans = false;
         if ((obj != null) && (obj instanceof PhoneMock)) {
             PhoneMock mock = (PhoneMock) obj;
-            
+
             mock.SetId(this.GetId());
             mock.SetPersonId(this.GetPersonId());
             mock.SetPhone(this.GetPhone());
-            
+
             ans = true;
         }
         return ans;
@@ -165,7 +168,7 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerialize, IClo
             }
             if (this.GetPhone().length() == 0) {
                 stream.write(ByteConverter.IntToByteArray(0));
-            }            
+            }
             if (this.GetPhone().length() > 0) {
                 //wtites the length of the phone stream
                 byte[] towrite = this.GetPhone().getBytes(ENCODING);
@@ -233,30 +236,39 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerialize, IClo
         hash = HASH_CONST * hash + (this.m_isNull ? 1 : 0);
         return hash;
     }
-    
+
     public String GetPhone() {
         return m_phone;
     }
-    
+
     public void SetPhone(String phone) {
+        if (this.IsNull()) {
+            throw new IllegalStateException("Cant set field, object is Nullable");
+        }
         if (null != phone) {
             this.m_phone = cutString(phone, PhoneMock.MAX_LENGTH);
         }
     }
-    
+
     public int GetId() {
         return m_id;
     }
-    
+
     public void SetId(int m_id) {
+        if (this.IsNull()) {
+            throw new IllegalStateException("Cant set field, object is Nullable");
+        }
         this.m_id = m_id;
     }
-    
+
     public int GetPersonId() {
         return m_person_id;
     }
-    
+
     public void SetPersonId(int person_id) {
+        if (this.IsNull()) {
+            throw new IllegalStateException("Cant set field, object is Nullable");
+        }
         this.m_person_id = person_id;
     }
 
