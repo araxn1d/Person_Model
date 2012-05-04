@@ -6,7 +6,7 @@ package addressbook.mocks.profile;
 
 import addressbook.infrastructure.convertors.ByteConverter;
 import addressbook.infrastructure.interfaces.IAssignable;
-import addressbook.infrastructure.interfaces.IBinarySerializable;
+import addressbook.infrastructure.interfaces.IBinarySerialize;
 import addressbook.infrastructure.interfaces.ICloneable;
 import addressbook.infrastructure.interfaces.INullable;
 import java.io.DataInputStream;
@@ -19,11 +19,12 @@ import java.util.Objects;
  *
  * @author Jeka
  */
-public class AddressMock implements INullable, IAssignable, IBinarySerializable, ICloneable {
+public class AddressMock implements INullable, IAssignable, IBinarySerialize, ICloneable {
 
     public static final String ENCODING = "UTF-8";
     public static final String TABLE_NAME = "Adresses";
     public static final int MAX_LENGTH = 30;
+    private static final int HASH_CONST = 67;
 
     /**
      * @return new nullable instance of AdressMock
@@ -122,10 +123,13 @@ public class AddressMock implements INullable, IAssignable, IBinarySerializable,
             id = input.readInt();
             personId = input.readInt();
 
-            // read firstName length
-            byte addressLength = (byte) input.readByte();
-            // create array to store firstName if it length not equal -1
-            if (addressLength != -1) {
+            // read adress length
+            int addressLength = input.readInt();
+            // create array to store adress if it length not equal -1
+            if (addressLength == 0) {
+                address = "";
+            }
+            if (addressLength > 0) {
                 byte[] addressBytes = new byte[addressLength];
                 // read address bytes and create String value
                 input.read(addressBytes, 0, addressLength);
@@ -139,7 +143,6 @@ public class AddressMock implements INullable, IAssignable, IBinarySerializable,
             return true;
         } catch (IOException ex) {
             ex.printStackTrace(System.err);
-        } finally {
             return false;
         }
     }
@@ -162,7 +165,11 @@ public class AddressMock implements INullable, IAssignable, IBinarySerializable,
             //-1 if the address is null
             if (null == this.GetAdress()) {
                 stream.write(ByteConverter.IntToByteArray(-1));
-            } else {
+            }
+            if (this.GetAdress().length()==0) {
+                stream.write(ByteConverter.IntToByteArray(0));
+            }
+            if (this.GetAdress().length() > 0) {
                 //wtites the length of the address  to the stream
 
                 byte[] towrite = this.GetAdress().getBytes(ENCODING);
@@ -173,7 +180,6 @@ public class AddressMock implements INullable, IAssignable, IBinarySerializable,
             return true;
         } catch (IOException ex) {
             ex.printStackTrace(System.err);
-        } finally {
             return false;
         }
     }
@@ -225,10 +231,10 @@ public class AddressMock implements INullable, IAssignable, IBinarySerializable,
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 67 * hash + this.m_id;
-        hash = 67 * hash + this.m_person_id;
-        hash = 67 * hash + Objects.hashCode(this.m_adress);
-        hash = 67 * hash + (this.m_isNull ? 1 : 0);
+        hash = HASH_CONST * hash + this.m_id;
+        hash = HASH_CONST * hash + this.m_person_id;
+        hash = HASH_CONST * hash + Objects.hashCode(this.m_adress);
+        hash = HASH_CONST * hash + (this.m_isNull ? 1 : 0);
         return hash;
     }
 

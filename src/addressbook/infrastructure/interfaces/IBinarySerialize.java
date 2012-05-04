@@ -11,7 +11,7 @@ import java.io.OutputStream;
  *
  * @author Jeka
  */
-public interface IBinarySerializable {
+public interface IBinarySerialize {
 
     /**
      * Deserialize object data from stream.

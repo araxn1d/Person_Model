@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
  */
 public class ProductModel implements INullable, ICloneable, IAssignable, IValidator {
 
+    private static final int HASH_CONST=79;
     /**
      * Fabric method, that create new Model instance
      *
@@ -176,10 +177,10 @@ public class ProductModel implements INullable, ICloneable, IAssignable, IValida
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 79 * hash + Objects.hashCode(this.m_adress);
-        hash = 79 * hash + Objects.hashCode(this.m_phone);
-        hash = 79 * hash + Objects.hashCode(this.m_person);
-        hash = 79 * hash + (this.m_isNull ? 1 : 0);
+        hash = HASH_CONST * hash + Objects.hashCode(this.m_adress);
+        hash = HASH_CONST * hash + Objects.hashCode(this.m_phone);
+        hash = HASH_CONST * hash + Objects.hashCode(this.m_person);
+        hash = HASH_CONST * hash + (this.m_isNull ? 1 : 0);
         return hash;
     }
 

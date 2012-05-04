@@ -6,7 +6,7 @@ package addressbook.mocks.profile;
 
 import addressbook.infrastructure.convertors.ByteConverter;
 import addressbook.infrastructure.interfaces.IAssignable;
-import addressbook.infrastructure.interfaces.IBinarySerializable;
+import addressbook.infrastructure.interfaces.IBinarySerialize;
 import addressbook.infrastructure.interfaces.ICloneable;
 import addressbook.infrastructure.interfaces.INullable;
 import java.io.DataInputStream;
@@ -14,16 +14,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  *
  * @author Jeka
  */
-public class PhoneMock implements INullable, IAssignable, IBinarySerializable, ICloneable {
-
+public class PhoneMock implements INullable, IAssignable, IBinarySerialize, ICloneable {
+    
     public static final String ENCODING = "UTF-8";
     public static final String TABLE_NAME = "Phones";
     public static final int MAX_LENGTH = 30;
+    private static final int HASH_CONST = 29;
 
     /**
      * @return new nullable instance of AdressMock
@@ -90,11 +92,11 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerializable, I
         boolean ans = false;
         if ((obj != null) && (obj instanceof PhoneMock)) {
             PhoneMock mock = (PhoneMock) obj;
-
+            
             mock.SetId(this.GetId());
             mock.SetPersonId(this.GetPersonId());
             mock.SetPhone(this.GetPhone());
-
+            
             ans = true;
         }
         return ans;
@@ -110,7 +112,6 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerializable, I
     public boolean Read(InputStream stream) {
         try {
             DataInputStream input = new DataInputStream(stream);
-
             // create variables to store read values
             int id;
             int personId;
@@ -119,15 +120,17 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerializable, I
             // read int values that represent as 4 byte
             id = input.readInt();
             personId = input.readInt();
-
-            // read firstName length
-            byte phoneLength = (byte) input.readByte();
-            // create array to store firstName if it length not equal -1
-            if (phoneLength != -1) {
+            // read phone length
+            int phoneLength = input.readInt();
+            // create array to store phone if it length not equal -1
+            if (phoneLength == 0) {
+                phone = "";
+            }
+            if (phoneLength > 0) {
                 byte[] phoneBytes = new byte[phoneLength];
                 // read phone bytes and create String value
                 input.read(phoneBytes, 0, phoneLength);
-                m_phone = new String(phoneBytes, ENCODING);
+                phone = new String(phoneBytes, ENCODING);
             }
             //set values to the object
             this.SetId(id);
@@ -137,7 +140,6 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerializable, I
             return true;
         } catch (IOException ex) {
             ex.printStackTrace(System.err);
-        } finally {
             return false;
         }
     }
@@ -160,9 +162,12 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerializable, I
             //-1 if the address is null
             if (null == this.GetPhone()) {
                 stream.write(ByteConverter.IntToByteArray(-1));
-            } else {
+            }
+            if (this.GetPhone().length() == 0) {
+                stream.write(ByteConverter.IntToByteArray(0));
+            }            
+            if (this.GetPhone().length() > 0) {
                 //wtites the length of the phone stream
-
                 byte[] towrite = this.GetPhone().getBytes(ENCODING);
                 stream.write(ByteConverter.IntToByteArray(towrite.length));
                 stream.write(towrite);
@@ -171,7 +176,6 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerializable, I
             return true;
         } catch (IOException ex) {
             ex.printStackTrace(System.err);
-        } finally {
             return false;
         }
     }
@@ -223,35 +227,35 @@ public class PhoneMock implements INullable, IAssignable, IBinarySerializable, I
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 29 * hash + Objects.hashCode(this.m_phone);
-        hash = 29 * hash + this.m_person_id;
-        hash = 29 * hash + this.m_id;
-        hash = 29 * hash + (this.m_isNull ? 1 : 0);
+        hash = HASH_CONST * hash + Objects.hashCode(this.m_phone);
+        hash = HASH_CONST * hash + this.m_person_id;
+        hash = HASH_CONST * hash + this.m_id;
+        hash = HASH_CONST * hash + (this.m_isNull ? 1 : 0);
         return hash;
     }
-
+    
     public String GetPhone() {
         return m_phone;
     }
-
+    
     public void SetPhone(String phone) {
         if (null != phone) {
             this.m_phone = cutString(phone, PhoneMock.MAX_LENGTH);
         }
     }
-
+    
     public int GetId() {
         return m_id;
     }
-
+    
     public void SetId(int m_id) {
         this.m_id = m_id;
     }
-
+    
     public int GetPersonId() {
         return m_person_id;
     }
-
+    
     public void SetPersonId(int person_id) {
         this.m_person_id = person_id;
     }

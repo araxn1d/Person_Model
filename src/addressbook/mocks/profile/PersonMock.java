@@ -6,7 +6,7 @@ package addressbook.mocks.profile;
 
 import addressbook.infrastructure.convertors.ByteConverter;
 import addressbook.infrastructure.interfaces.IAssignable;
-import addressbook.infrastructure.interfaces.IBinarySerializable;
+import addressbook.infrastructure.interfaces.IBinarySerialize;
 import addressbook.infrastructure.interfaces.ICloneable;
 import addressbook.infrastructure.interfaces.INullable;
 import java.io.DataInputStream;
@@ -19,11 +19,12 @@ import java.util.Objects;
  *
  * @author Jeka
  */
-public class PersonMock implements INullable, IAssignable, IBinarySerializable, ICloneable {
+public class PersonMock implements INullable, IAssignable, IBinarySerialize, ICloneable {
 
     public static final String ENCODING = "UTF-8";
     public static final String TABLE_NAME = "Persons";
     public static final int MAX_LENGTH = 30;
+    private static final int HASH_CONST = 67;
 
     /**
      * @return new nullable instance of AdressMock
@@ -130,7 +131,10 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
             for (int i = 0; i < fields.length; i++) {
                 fields[i] = null;
                 byte length = (byte) input.readByte();
-                if (length != -1) {
+                if (length == 0) {
+                    fields[i] = "";
+                }
+                if (length > 0) {
                     byte[] phoneBytes = new byte[length];
                     // read phone bytes and create String value
                     input.read(phoneBytes, 0, length);
@@ -147,7 +151,6 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
             return true;
         } catch (IOException ex) {
             ex.printStackTrace(System.err);
-        } finally {
             return false;
         }
     }
@@ -176,7 +179,11 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
             for (int i = 0; i < fields.length; i++) {
                 if (null == fields[i]) {
                     stream.write(ByteConverter.IntToByteArray(-1));
-                } else {
+                }
+                if (fields[i].length() == 0) {
+                    stream.write(ByteConverter.IntToByteArray(0));
+                }
+                if (fields[i].length() > 0) {
                     byte[] towrite = fields[i].getBytes(ENCODING);
                     stream.write(ByteConverter.IntToByteArray(towrite.length));
                     stream.write(towrite);
@@ -186,7 +193,6 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
             return true;
         } catch (IOException ex) {
             ex.printStackTrace(System.err);
-        } finally {
             return false;
         }
     }
@@ -244,12 +250,12 @@ public class PersonMock implements INullable, IAssignable, IBinarySerializable, 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 67 * hash + this.m_id;
-        hash = 67 * hash + Objects.hashCode(this.m_firstName);
-        hash = 67 * hash + Objects.hashCode(this.m_lastName);
-        hash = 67 * hash + Objects.hashCode(this.m_birthDate);
-        hash = 67 * hash + Objects.hashCode(this.m_eMail);
-        hash = 67 * hash + (this.m_isNull ? 1 : 0);
+        hash = HASH_CONST * hash + this.m_id;
+        hash = HASH_CONST * hash + Objects.hashCode(this.m_firstName);
+        hash = HASH_CONST * hash + Objects.hashCode(this.m_lastName);
+        hash = HASH_CONST * hash + Objects.hashCode(this.m_birthDate);
+        hash = HASH_CONST * hash + Objects.hashCode(this.m_eMail);
+        hash = HASH_CONST * hash + (this.m_isNull ? 1 : 0);
         return hash;
     }
 

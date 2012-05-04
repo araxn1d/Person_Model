@@ -144,6 +144,8 @@ public class NewTest {
         ProductDAL dal = new ProductDAL();
         AddressMock mock = dal.getAdressMockByID(1);
         System.out.println("ADDRESS="+mock.GetAdress());
+        String s="";
+        System.out.println("LENGTH="+s.length());
         assertTrue(mock.GetAdress().equals("Hello"));
     }
 }
